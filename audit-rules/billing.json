@@ -4,9 +4,9 @@
   "checks": [
     {
       "id": "1.1",
-      "name": "Stripe Checkout/Elements integration (no raw cards)",
+      "name": "Stripe SDK / Checkout / Elements integration (no raw cards)",
       "type": "grep",
-      "pattern": "stripe.*checkout|@stripe/stripe-js|@stripe/react-stripe-js",
+      "pattern": "stripe.*checkout|@stripe/stripe-js|@stripe/react-stripe-js|from ['\"]stripe['\"]|require\\(['\"]stripe['\"]\\)|new Stripe\\(",
       "paths": ["src/**/*.js", "src/**/*.ts", "src/**/*.jsx", "src/**/*.tsx", "package.json"],
       "severity": "required",
       "applies_to_project_types": ["backend", "web"]

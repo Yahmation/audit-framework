@@ -24,7 +24,7 @@
       "id": "3.2",
       "name": "STOP/UNSUBSCRIBE keyword handling for SMS",
       "type": "grep",
-      "pattern": "STOP|UNSUBSCRIBE|END|QUIT.*opt[-_]?out",
+      "pattern": "STOP_KEYWORDS|stopKeywords|['\"]STOP['\"]\\s*[,)\\]:]|['\"]UNSUBSCRIBE['\"]\\s*[,)\\]:]|optOut|optedOut|opted_out|opt_out",
       "paths": ["src/**/*.js", "src/**/*.ts"],
       "severity": "required",
       "applies_to_project_types": ["backend"]

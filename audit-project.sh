@@ -96,6 +96,73 @@ run_check() {
         WARN=$((WARN + 1))
       fi
       ;;
+    grep_any_of)
+      # Passes if ANY of the listed alternatives matches.
+      # Each alternative: {pattern, paths}. Useful when a feature can be
+      # implemented multiple legitimate ways (e.g., email via managed
+      # provider deps OR via OAuth2 send pattern in source).
+      local found=""
+      while IFS= read -r alt; do
+        [ -n "$found" ] && break
+        local apat
+        apat=$(echo "$alt" | jq -r '.pattern')
+        mapfile -t apaths < <(echo "$alt" | jq -r '.paths[]?')
+        for p in "${apaths[@]}"; do
+          shopt -s globstar nullglob
+          local matches=( $p )
+          shopt -u globstar nullglob
+          for f in "${matches[@]}"; do
+            if [ -f "$f" ] && grep -qE "$apat" "$f" 2>/dev/null; then
+              found="$f"; break 3
+            fi
+          done
+        done
+      done < <(echo "$check_json" | jq -c '.alternatives[]?')
+      if [ -n "$found" ]; then
+        echo -e "  ${G}✅${N} ${id} ${name} ${D}(${found})${N}"
+        PASS=$((PASS + 1))
+      elif [ "$severity" = "required" ]; then
+        echo -e "  ${R}❌${N} ${id} ${name} ${R}[REQUIRED — missing]${N}"
+        FAIL=$((FAIL + 1))
+      else
+        echo -e "  ${Y}⚠️${N}  ${id} ${name} ${Y}[${severity} — missing]${N}"
+        WARN=$((WARN + 1))
+      fi
+      ;;
+    grep_all)
+      # All listed patterns must match within the same file.
+      mapfile -t pattern_array < <(echo "$check_json" | jq -r '.patterns[]?')
+      mapfile -t path_array < <(echo "$check_json" | jq -r '.paths[]?')
+      local found=""
+      for p in "${path_array[@]}"; do
+        shopt -s globstar nullglob
+        local matches=( $p )
+        shopt -u globstar nullglob
+        for f in "${matches[@]}"; do
+          if [ -f "$f" ]; then
+            local all_matched=1
+            for pat in "${pattern_array[@]}"; do
+              if ! grep -qE "$pat" "$f" 2>/dev/null; then
+                all_matched=0; break
+              fi
+            done
+            if [ "$all_matched" = 1 ]; then
+              found="$f"; break 2
+            fi
+          fi
+        done
+      done
+      if [ -n "$found" ]; then
+        echo -e "  ${G}✅${N} ${id} ${name} ${D}(${found})${N}"
+        PASS=$((PASS + 1))
+      elif [ "$severity" = "required" ]; then
+        echo -e "  ${R}❌${N} ${id} ${name} ${R}[REQUIRED — missing]${N}"
+        FAIL=$((FAIL + 1))
+      else
+        echo -e "  ${Y}⚠️${N}  ${id} ${name} ${Y}[${severity} — missing]${N}"
+        WARN=$((WARN + 1))
+      fi
+      ;;
     grep_negative)
       pattern=$(echo "$check_json" | jq -r '.pattern')
       mapfile -t path_array < <(echo "$check_json" | jq -r '.paths[]?')

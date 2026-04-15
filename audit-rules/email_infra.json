@@ -4,10 +4,22 @@
   "checks": [
     {
       "id": "1.1",
-      "name": "Transactional email provider in deps (Postmark/Resend/SendGrid/Mailgun)",
-      "type": "grep",
-      "pattern": "postmark|resend|@sendgrid|mailgun|@aws-sdk/client-ses",
-      "paths": ["package.json"],
+      "name": "Managed transactional email pathway (provider SDK or Gmail/Microsoft OAuth send)",
+      "type": "grep_any_of",
+      "alternatives": [
+        {
+          "pattern": "postmark|resend|@sendgrid|mailgun|@aws-sdk/client-ses",
+          "paths": ["package.json"]
+        },
+        {
+          "pattern": "googleapis|@microsoft/microsoft-graph-client|google-auth-library",
+          "paths": ["package.json"]
+        },
+        {
+          "pattern": "type:\\s*['\"]OAuth2['\"]|service:\\s*['\"]gmail['\"]|XOAUTH2|gmail\\.users\\.messages\\.send",
+          "paths": ["src/**/*.js", "src/**/*.ts"]
+        }
+      ],
       "severity": "required",
       "applies_to_project_types": ["backend"]
     },

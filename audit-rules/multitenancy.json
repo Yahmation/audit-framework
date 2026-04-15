@@ -32,9 +32,12 @@
     {
       "id": "3.1",
       "name": "organizationId in JWT/session payload",
-      "type": "grep",
-      "pattern": "organizationId.*jwt\\.sign|jwt\\.sign.*organizationId",
-      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "type": "grep_all",
+      "patterns": [
+        "jwtSign|jwt\\.sign|signToken|signJwt|generateToken",
+        "organizationId"
+      ],
+      "paths": ["src/**/*.js", "src/**/*.ts", "src/routes/**/*.js", "src/routes/**/*.ts"],
       "severity": "required",
       "applies_to_project_types": ["backend"]
     },
