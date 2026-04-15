@@ -63,6 +63,13 @@
       "severity": "required"
     },
     {
+      "id": "4.1b",
+      "name": "Secret scanning workflow present (gitleaks)",
+      "type": "file_exists",
+      "paths": [".github/workflows/gitleaks.yml", "../../.github/workflows/gitleaks.yml", "../../../.github/workflows/gitleaks.yml"],
+      "severity": "required"
+    },
+    {
       "id": "4.2",
       "name": "Dependabot configured",
       "type": "file_exists",
