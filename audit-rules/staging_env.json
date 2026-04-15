@@ -1,0 +1,48 @@
+{
+  "id": "staging_env",
+  "name": "Staging environment",
+  "checks": [
+    {
+      "id": "manual.staging-url",
+      "name": "staging.<service>.yahmation.com URL exists + accessible",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.staging-banner",
+      "name": "Visible STAGING banner on staging UI (no prod confusion)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.robots-disallow",
+      "name": "Staging robots.txt blocks indexing",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.sanitization",
+      "name": "Sanitization script for prod→staging data refresh",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.separate-secrets",
+      "name": "Separate secrets (Twilio sub, Stripe test, FCM project)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.auto-deploy-main",
+      "name": "main branch auto-deploys to staging",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.same-deploy-mechanism",
+      "name": "Staging uses same deploy mechanism as prod (no divergence)",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

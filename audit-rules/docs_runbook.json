@@ -1,0 +1,55 @@
+{
+  "id": "docs_runbook",
+  "name": "Docs & runbook conventions",
+  "checks": [
+    {
+      "id": "1.0",
+      "name": "README.md present at repo root",
+      "type": "file_exists",
+      "paths": ["README.md", "../README.md", "../../README.md"],
+      "severity": "required"
+    },
+    {
+      "id": "2.0",
+      "name": "RUNBOOK.md present",
+      "type": "file_exists",
+      "paths": ["RUNBOOK.md", "docs/RUNBOOK.md", "../RUNBOOK.md"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.0",
+      "name": "CHANGELOG.md present",
+      "type": "file_exists",
+      "paths": ["CHANGELOG.md", "../CHANGELOG.md", "../../CHANGELOG.md"],
+      "severity": "recommended"
+    },
+    {
+      "id": "5.0",
+      "name": "ADR directory present (docs/adr/)",
+      "type": "file_exists",
+      "paths": ["docs/adr", "../docs/adr"],
+      "severity": "manual"
+    },
+    {
+      "id": "1.4",
+      "name": ".env.example present (documents required env vars)",
+      "type": "file_exists",
+      "paths": [".env.example", "../.env.example", "../../.env.example"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "manual.deployment-section",
+      "name": "README has Deployment section (how + rollback)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.runbook-incidents",
+      "name": "RUNBOOK has playbook per known incident type",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

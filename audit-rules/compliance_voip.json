@@ -1,0 +1,72 @@
+{
+  "id": "compliance_voip",
+  "name": "VoIP compliance (TCPA, recording, 10DLC)",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "Opt-in tracking columns in schema",
+      "type": "grep",
+      "pattern": "optedIn|opt_in|optInAt",
+      "paths": ["src/**/*.prisma", "prisma/**/*.prisma"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "1.2",
+      "name": "DNC list check before outbound calls",
+      "type": "grep",
+      "pattern": "dnc|doNotCall|do_not_call",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.2",
+      "name": "STOP/UNSUBSCRIBE keyword handling for SMS",
+      "type": "grep",
+      "pattern": "STOP|UNSUBSCRIBE|END|QUIT.*opt[-_]?out",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.3",
+      "name": "HELP keyword auto-response",
+      "type": "grep",
+      "pattern": "HELP.*keyword|keyword.*HELP",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "manual.recording-disclaimer",
+      "name": "Two-party-consent recording disclaimer plays in CA/FL/IL/etc",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.recording-retention",
+      "name": "Recording retention cron documented + running",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.10dlc",
+      "name": "10DLC registration completed in Twilio console",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.time-of-day",
+      "name": "Time-of-day enforcement for outbound (8am-9pm local)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.audit-retention",
+      "name": "Per-call compliance audit log retained 4 years (TCPA)",
+      "type": "manual",
+      "severity": "required"
+    }
+  ]
+}

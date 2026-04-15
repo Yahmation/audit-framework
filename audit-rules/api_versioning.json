@@ -1,0 +1,45 @@
+{
+  "id": "api_versioning",
+  "name": "API versioning & deprecation",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "URL-path versioning (/v1, /v2)",
+      "type": "grep",
+      "pattern": "/api/v[0-9]+/|/v[0-9]+/",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "manual.deprecation-window",
+      "name": "Deprecation window ≥6 months (12 for paying-customer APIs)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.deprecation-headers",
+      "name": "Deprecation/Sunset headers on deprecated endpoints",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.migration-guide",
+      "name": "Migration guide per major version published",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.deprecation-logging",
+      "name": "Deprecated endpoint usage logged with caller identification",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.transformation-layer",
+      "name": "DTOs / response-builders separate API shape from DB shape",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

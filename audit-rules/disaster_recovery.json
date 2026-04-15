@@ -1,0 +1,48 @@
+{
+  "id": "disaster_recovery",
+  "name": "Disaster recovery",
+  "checks": [
+    {
+      "id": "manual.rto-rpo",
+      "name": "RTO + RPO documented in RUNBOOK.md",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.daily-backups",
+      "name": "Automated daily backups configured (covered by production_hardening §5.1)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.offsite-copy",
+      "name": "Off-site backup copy (different provider/region)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.restore-procedure",
+      "name": "Step-by-step restore procedure in RUNBOOK.md with timing estimates",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.quarterly-drill",
+      "name": "DR drill performed quarterly (restore to scratch, smoke-test, drop)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.annual-full-drill",
+      "name": "Annual full-loss drill (rebuild server from docs alone)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.postmortem-after",
+      "name": "Postmortem within 48hr of any incident, action items filed",
+      "type": "manual",
+      "severity": "required"
+    }
+  ]
+}

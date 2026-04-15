@@ -1,0 +1,37 @@
+name: 'Yahmation audit'
+description: 'Run the production-hardening audit framework against this repo. Finds every .audit.json + runs its declared checklists.'
+runs:
+  using: composite
+  steps:
+    - name: Run audit
+      shell: bash
+      env:
+        RULES_DIR: ${{ github.action_path }}/audit-rules
+      run: |
+        set -e
+        # Find every .audit.json in the repo (excluding node_modules + caches).
+        mapfile -t MANIFESTS < <(
+          find . -maxdepth 6 -name '.audit.json' \
+            -not -path '*/node_modules/*' \
+            -not -path '*/.git/*' \
+            2>/dev/null
+        )
+        if [[ ${#MANIFESTS[@]} -eq 0 ]]; then
+          echo '::warning::No .audit.json manifests found in repo. Add one to enable audit framework checks.'
+          exit 0
+        fi
+        echo "Found ${#MANIFESTS[@]} manifest(s) — running audit on each…"
+        FAIL=0
+        for m in "${MANIFESTS[@]}"; do
+          dir=$(dirname "$m")
+          echo "::group::Audit $dir"
+          if ! (cd "$dir" && bash "${{ github.action_path }}/audit-project.sh"); then
+            FAIL=1
+          fi
+          echo "::endgroup::"
+        done
+        if [[ $FAIL -ne 0 ]]; then
+          echo '::error::Audit failed — one or more required checks missing. See per-manifest output above.'
+          exit 1
+        fi
+        echo "✓ All manifests pass required checks"

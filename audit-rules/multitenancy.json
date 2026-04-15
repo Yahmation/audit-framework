@@ -1,0 +1,60 @@
+{
+  "id": "multitenancy",
+  "name": "Multi-tenancy patterns",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "organizationId column present in Prisma schema",
+      "type": "grep",
+      "pattern": "organizationId\\s+String",
+      "paths": ["src/**/*.prisma", "prisma/**/*.prisma"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "1.2",
+      "name": "Compound unique constraints scoped to org",
+      "type": "grep",
+      "pattern": "@@unique\\(\\[organizationId",
+      "paths": ["src/**/*.prisma", "prisma/**/*.prisma"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "2.2",
+      "name": "Tenant-scoping middleware or helper used",
+      "type": "grep",
+      "pattern": "tenantScope|withOrgScope|prisma\\$use",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "manual",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.1",
+      "name": "organizationId in JWT/session payload",
+      "type": "grep",
+      "pattern": "organizationId.*jwt\\.sign|jwt\\.sign.*organizationId",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "manual.cross-org-test",
+      "name": "Explicit cross-org access test in CI",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.org-deletion-cascade",
+      "name": "Org deletion cascade documented",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.gdpr-export",
+      "name": "GET /me/export and /org/export endpoints exist",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

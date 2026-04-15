@@ -1,0 +1,68 @@
+{
+  "id": "ai_features",
+  "name": "AI / LLM feature patterns",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "Per-call max_tokens specified",
+      "type": "grep",
+      "pattern": "max_tokens",
+      "paths": ["src/**/*.js", "src/**/*.ts", "src/**/*.py"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "1.4",
+      "name": "Anthropic prompt cache used",
+      "type": "grep",
+      "pattern": "cache_control",
+      "paths": ["src/**/*.js", "src/**/*.ts", "src/**/*.py"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "2.1",
+      "name": "Prompts versioned in git (prompts/ dir)",
+      "type": "file_exists",
+      "paths": ["prompts", "src/prompts", "src/lib/prompts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "4.1",
+      "name": "Structured output (tool_use or json_object)",
+      "type": "grep",
+      "pattern": "tool_use|response_format.*json_object|tools\\s*[:=]",
+      "paths": ["src/**/*.js", "src/**/*.ts", "src/**/*.py"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "5.2",
+      "name": "User content delimited (e.g., <user_message> tags)",
+      "type": "grep",
+      "pattern": "<user_message|<user_input|<untrusted",
+      "paths": ["src/**/*.js", "src/**/*.ts", "src/**/*.py", "prompts/**"],
+      "severity": "manual",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "manual.cost-cap",
+      "name": "Per-org daily/monthly LLM spend cap configured",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.fallback-chain",
+      "name": "Fallback model + graceful degradation when LLM down",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.prompt-versioning-logged",
+      "name": "Prompt version logged with every LLM call",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

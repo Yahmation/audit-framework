@@ -1,0 +1,177 @@
+{
+  "id": "production_hardening",
+  "name": "Production hardening (universal baseline)",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "Sentry/GlitchTip SDK declared in package.json",
+      "type": "grep",
+      "pattern": "@sentry/(node|react|react-native)",
+      "paths": ["package.json"],
+      "severity": "required"
+    },
+    {
+      "id": "1.2",
+      "name": "React/RN error boundary present",
+      "type": "grep",
+      "pattern": "ErrorBoundary|componentDidCatch|getDerivedStateFromError",
+      "paths": ["src/**/*.js", "src/**/*.jsx", "src/**/*.tsx"],
+      "severity": "required",
+      "applies_to_project_types": ["web", "mobile"]
+    },
+    {
+      "id": "2.1",
+      "name": "/health or /healthz endpoint exposed",
+      "type": "grep",
+      "pattern": "/(health|healthz)['\"`]",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.1",
+      "name": "Retry-with-backoff helper for external calls",
+      "type": "grep",
+      "pattern": "withRetry|retry.*backoff|exponentialBackoff",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.2",
+      "name": "Idempotency-Key header support on mutating endpoints",
+      "type": "grep",
+      "pattern": "Idempotency-Key|idempotenc",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.3",
+      "name": "WebSocket auto-reconnect with backoff",
+      "type": "grep",
+      "pattern": "reconnect|onclose.*backoff|reconnectAttempts",
+      "paths": ["src/lib/websocket.*", "src/lib/ws.*"],
+      "severity": "recommended",
+      "applies_to_project_types": ["web", "mobile"]
+    },
+    {
+      "id": "4.1",
+      "name": "Husky pre-commit hooks configured",
+      "type": "file_exists",
+      "paths": [".husky/pre-commit", "../../.husky/pre-commit", "../../../.husky/pre-commit"],
+      "severity": "required"
+    },
+    {
+      "id": "4.2",
+      "name": "Dependabot configured",
+      "type": "file_exists",
+      "paths": [".github/dependabot.yml", "../../.github/dependabot.yml", "../../../.github/dependabot.yml"],
+      "severity": "recommended"
+    },
+    {
+      "id": "4.4",
+      "name": "Audit log model present (Prisma) or audit() helper used",
+      "type": "grep",
+      "pattern": "model AuditLog|audit\\(req|auditLog\\.create",
+      "paths": ["src/**/*.js", "src/**/*.ts", "src/**/*.prisma"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "7.1",
+      "name": "Schema validation library used at API boundary",
+      "type": "grep",
+      "pattern": "from ['\"]zod['\"]|require\\(['\"]zod['\"]|from ['\"]joi['\"]|from ['\"]yup['\"]|from ['\"]ajv['\"]",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "7.2",
+      "name": "Rate limiting plugin registered",
+      "type": "grep",
+      "pattern": "@fastify/rate-limit|express-rate-limit|rateLimit",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "7.4",
+      "name": "CORS plugin registered (no wildcard origin in source)",
+      "type": "grep",
+      "pattern": "@fastify/cors|express.*cors|require\\(['\"]cors['\"]",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "8.1",
+      "name": "Single-command build script (mobile/web only)",
+      "type": "file_exists",
+      "paths": ["scripts/build-release.sh", "scripts/build.sh", "package.json"],
+      "severity": "required"
+    },
+    {
+      "id": "8.3",
+      "name": "validate-project.sh integration",
+      "type": "file_exists",
+      "paths": ["/root/shared/scripts/validate-project.sh"],
+      "severity": "recommended"
+    },
+    {
+      "id": "9.2",
+      "name": "No window.alert/confirm/prompt (custom-styled UI rule)",
+      "type": "grep_negative",
+      "pattern": "window\\.(alert|confirm|prompt)\\(",
+      "paths": ["src/**/*.js", "src/**/*.jsx", "src/**/*.tsx"],
+      "severity": "required",
+      "applies_to_project_types": ["web"]
+    },
+    {
+      "id": "10.1",
+      "name": "Battery-restriction handling (Samsung/OEM kill-app prompt)",
+      "type": "grep",
+      "pattern": "BatteryOptimization|isIgnoringBatteryOptimizations",
+      "paths": ["src/**/*.js", "android/**/*.kt"],
+      "severity": "recommended",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "10.2",
+      "name": "FCM token periodic refresh (WorkManager)",
+      "type": "grep",
+      "pattern": "FcmTokenRefreshWorker|FirebaseMessaging.*token.*refresh|onNewToken",
+      "paths": ["android/**/*.kt", "plugins/**/*.js"],
+      "severity": "recommended",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "10.3",
+      "name": "App-process heartbeat to server",
+      "type": "grep",
+      "pattern": "HeartbeatWorker|/heartbeat|scheduleHeartbeat",
+      "paths": ["android/**/*.kt", "plugins/**/*.js", "src/**/*.js"],
+      "severity": "recommended",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "manual.uptimekuma",
+      "name": "Uptime Kuma monitor configured for public hostname",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.glitchtip-alerts",
+      "name": "GlitchTip alert rules → Discord/SMS configured",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.secret-scan-history",
+      "name": "Secret scan run on full git history at adoption",
+      "type": "manual",
+      "severity": "required"
+    }
+  ]
+}

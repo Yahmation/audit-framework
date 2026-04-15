@@ -1,0 +1,33 @@
+{
+  "id": "feature_flags",
+  "name": "Feature flags",
+  "checks": [
+    {
+      "id": "3.1",
+      "name": "Feature flag check pattern present (env or DB-driven)",
+      "type": "grep",
+      "pattern": "process\\.env\\.FEATURE_|featureFlags|growthbook|isFeatureEnabled",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "manual",
+      "applies_to_project_types": ["web", "mobile", "backend"]
+    },
+    {
+      "id": "manual.types",
+      "name": "Flag types documented (release/experiment/ops/permission)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.cleanup",
+      "name": "Quarterly flag audit + removal of fully-rolled-out flags",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.audit-changes",
+      "name": "Flag changes logged to audit_log",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

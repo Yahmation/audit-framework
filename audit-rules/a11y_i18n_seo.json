@@ -1,0 +1,76 @@
+{
+  "id": "a11y_i18n_seo",
+  "name": "A11y, i18n, SEO + performance",
+  "checks": [
+    {
+      "id": "1.8",
+      "name": "eslint-plugin-jsx-a11y enabled",
+      "type": "grep",
+      "pattern": "jsx-a11y",
+      "paths": [".eslintrc*", "eslint.config.*", "package.json"],
+      "severity": "recommended",
+      "applies_to_project_types": ["web"]
+    },
+    {
+      "id": "2.1",
+      "name": "i18n library in deps (i18next/react-intl/etc)",
+      "type": "grep",
+      "pattern": "i18next|react-intl|@formatjs|next-intl",
+      "paths": ["package.json"],
+      "severity": "manual",
+      "applies_to_project_types": ["web"]
+    },
+    {
+      "id": "3.6",
+      "name": "robots.txt present",
+      "type": "file_exists",
+      "paths": ["public/robots.txt", "static/robots.txt", "robots.txt"],
+      "severity": "required",
+      "applies_to_project_types": ["web", "static"]
+    },
+    {
+      "id": "3.7",
+      "name": "sitemap.xml present (or generated)",
+      "type": "file_exists",
+      "paths": ["public/sitemap.xml", "static/sitemap.xml", "sitemap.xml"],
+      "severity": "recommended",
+      "applies_to_project_types": ["web", "static"]
+    },
+    {
+      "id": "3.8",
+      "name": "OpenGraph meta tags in HTML",
+      "type": "grep",
+      "pattern": "og:title|og:description|og:image",
+      "paths": ["public/**/*.html", "src/**/*.html", "src/**/index.html", "index.html"],
+      "severity": "recommended",
+      "applies_to_project_types": ["web", "static"]
+    },
+    {
+      "id": "4.5",
+      "name": "Web Vitals reported to monitoring",
+      "type": "grep",
+      "pattern": "web-vitals|webVitals|onCLS|onLCP|onINP",
+      "paths": ["src/**/*.js", "src/**/*.jsx", "src/**/*.tsx"],
+      "severity": "manual",
+      "applies_to_project_types": ["web"]
+    },
+    {
+      "id": "manual.contrast",
+      "name": "Color contrast verified (axe DevTools)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.screen-reader",
+      "name": "Screen reader test performed on critical flows",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.cookie-banner",
+      "name": "Cookie consent banner if EU/CA users + non-essential cookies",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

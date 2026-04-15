@@ -1,0 +1,46 @@
+{
+  "id": "load_testing",
+  "name": "Load testing & capacity planning",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "k6 load-test scripts present (tests/load/)",
+      "type": "file_exists",
+      "paths": ["tests/load", "load-tests", "k6"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "2.0",
+      "name": "Per-endpoint latency budgets documented",
+      "type": "file_exists",
+      "paths": ["tests/load/budgets.md", "tests/load/README.md", "docs/budgets.md"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "manual.weekly-baseline",
+      "name": "Baseline load test runs weekly on staging",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.regression-alert",
+      "name": "Alert on p95 +25% week-over-week",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.capacity-targets",
+      "name": "Breaking-point + 3x peak capacity targets documented",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.pre-deploy",
+      "name": "Load test runs before any prod-impacting deploy (schema migrations, dep upgrades)",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

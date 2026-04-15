@@ -1,0 +1,42 @@
+{
+  "id": "onboarding_flow",
+  "name": "Onboarding flow conventions",
+  "checks": [
+    {
+      "id": "manual.ttv",
+      "name": "Time-to-first-value <5min from signup",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.welcome",
+      "name": "Welcome flow on first login (3-step max, skippable)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.sample-data",
+      "name": "Sample data pre-populated for new accounts",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.empty-states",
+      "name": "Every empty state has an action button (no blank screens)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.email-confirm",
+      "name": "Email confirmation flow with resend button",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.metrics",
+      "name": "Activation rate + day-7 retention tracked",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "id": "code_review",
+  "name": "Code review standards",
+  "checks": [
+    {
+      "id": "manual.tests-cover-changes",
+      "name": "Tests cover changed paths (smoke test minimum)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.ci-green",
+      "name": "CI green required to merge (no force-merge on red)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.no-secrets-in-diff",
+      "name": "No secrets / keys / tokens in diff",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.parameterized-sql",
+      "name": "All SQL queries parameterized (no string concat with user input)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.tenant-scoping",
+      "name": "Multi-tenant queries filter by organizationId",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.no-n-plus-one",
+      "name": "No N+1 queries (eager-load relations)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.review-sla",
+      "name": "Reviewer responds within 24hr",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.pr-description",
+      "name": "PR description explains WHY (not just WHAT)",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

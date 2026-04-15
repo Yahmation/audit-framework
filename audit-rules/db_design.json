@@ -1,0 +1,69 @@
+{
+  "id": "db_design",
+  "name": "Database design conventions",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "Primary keys are UUIDs/cuids (not sequential ints)",
+      "type": "grep",
+      "pattern": "@default\\(cuid|@default\\(uuid|@id @default",
+      "paths": ["src/**/*.prisma", "prisma/**/*.prisma"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.1",
+      "name": "createdAt timestamp on every row",
+      "type": "grep",
+      "pattern": "createdAt\\s+DateTime\\s+@default\\(now\\(\\)\\)",
+      "paths": ["src/**/*.prisma", "prisma/**/*.prisma"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.2",
+      "name": "updatedAt on mutable rows",
+      "type": "grep",
+      "pattern": "updatedAt\\s+DateTime\\s+@updatedAt",
+      "paths": ["src/**/*.prisma", "prisma/**/*.prisma"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "8.1",
+      "name": "No `prisma db push --force-reset` in any script",
+      "type": "grep_negative",
+      "pattern": "prisma\\s+db\\s+push.*--force-reset|prisma\\s+migrate\\s+reset.*--force",
+      "paths": ["scripts/**/*.sh", "package.json", "**/*.sh"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "5.1",
+      "name": "Indexes declared (any @@index)",
+      "type": "grep",
+      "pattern": "@@index",
+      "paths": ["src/**/*.prisma", "prisma/**/*.prisma"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "manual.soft-delete",
+      "name": "User-facing entities use soft delete (deletedAt) where appropriate",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.connection-pool",
+      "name": "Prisma connection_limit configured per env",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.migration-rollback",
+      "name": "Destructive migrations have documented rollback path",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

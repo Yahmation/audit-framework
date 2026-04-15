@@ -1,0 +1,45 @@
+{
+  "id": "caching",
+  "name": "Caching strategy",
+  "checks": [
+    {
+      "id": "1.4",
+      "name": "Redis client in deps (when caching is needed)",
+      "type": "grep",
+      "pattern": "ioredis|^redis$|\"redis\"|@redis/client",
+      "paths": ["package.json"],
+      "severity": "manual",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "manual.layer-choice",
+      "name": "Cache layer choice documented (browser/CDN/Redis/in-process)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.ttl-table",
+      "name": "Per-data-type TTL guidelines documented",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.invalidation-pattern",
+      "name": "Cache invalidation strategy chosen (TTL/manual/tag/versioned)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.stampede-protection",
+      "name": "Cache stampede protection (single-flight or jittered TTL)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.hit-rate-monitoring",
+      "name": "Cache hit-rate monitored, alert on degradation",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

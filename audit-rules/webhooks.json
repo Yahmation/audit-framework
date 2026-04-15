@@ -1,0 +1,63 @@
+{
+  "id": "webhooks",
+  "name": "Webhooks (incoming + outgoing)",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "Incoming webhook signature verification",
+      "type": "grep",
+      "pattern": "validateRequest|constructEvent|hmac|HMAC|verify.*signature|signature.*verify",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "1.2",
+      "name": "Webhook event ID idempotency tracking",
+      "type": "grep",
+      "pattern": "event\\.id|deliveryId|webhookEvent|processedEvents",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "1.5",
+      "name": "Replay attack protection (timestamp check)",
+      "type": "grep",
+      "pattern": "timestamp.*5.*min|webhook.*age|replayWindow",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "2.1",
+      "name": "Outbound webhooks signed (HMAC)",
+      "type": "grep",
+      "pattern": "X-.*-Signature|X-Hub-Signature|signOutbound|outboundSign",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "manual",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "2.4",
+      "name": "Outbound webhook retry-with-backoff",
+      "type": "grep",
+      "pattern": "withRetry|retry.*webhook|webhook.*retry|exponential",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "manual",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "manual.dlq",
+      "name": "Dead-letter queue for final-failed outbound deliveries",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.delivery-log",
+      "name": "Per-endpoint delivery log visible in admin UI",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

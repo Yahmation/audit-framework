@@ -1,0 +1,69 @@
+{
+  "id": "billing",
+  "name": "Billing & subscription patterns",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "Stripe Checkout/Elements integration (no raw cards)",
+      "type": "grep",
+      "pattern": "stripe.*checkout|@stripe/stripe-js|@stripe/react-stripe-js",
+      "paths": ["src/**/*.js", "src/**/*.ts", "src/**/*.jsx", "src/**/*.tsx", "package.json"],
+      "severity": "required",
+      "applies_to_project_types": ["backend", "web"]
+    },
+    {
+      "id": "2.1",
+      "name": "Stripe webhook signature verification",
+      "type": "grep",
+      "pattern": "stripe\\.webhooks\\.constructEvent|webhooks\\.constructEvent",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "2.2",
+      "name": "Webhook event idempotency (event.id tracked)",
+      "type": "grep",
+      "pattern": "event\\.id|stripeEventId|webhookEvent",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.1",
+      "name": "Subscription state cached locally (synced from webhooks)",
+      "type": "grep",
+      "pattern": "subscriptionStatus|stripeSubscriptionId",
+      "paths": ["src/**/*.prisma", "prisma/**/*.prisma"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "7.1",
+      "name": "Stripe Customer Portal link/integration",
+      "type": "grep",
+      "pattern": "billingPortal|customerPortal|customer_portal",
+      "paths": ["src/**/*.js", "src/**/*.ts", "src/**/*.jsx", "src/**/*.tsx"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend", "web"]
+    },
+    {
+      "id": "manual.dunning",
+      "name": "Stripe Smart Retries / dunning emails enabled in dashboard",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.dispute-alerts",
+      "name": "charge.dispute.created webhook → Discord alert",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.refund-audit",
+      "name": "Every refund logged to audit_log",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}

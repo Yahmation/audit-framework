@@ -1,0 +1,71 @@
+{
+  "id": "email_infra",
+  "name": "Email infrastructure & deliverability",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "Transactional email provider in deps (Postmark/Resend/SendGrid/Mailgun)",
+      "type": "grep",
+      "pattern": "postmark|resend|@sendgrid|mailgun|@aws-sdk/client-ses",
+      "paths": ["package.json"],
+      "severity": "required",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "3.1",
+      "name": "Email templates versioned in code (templates/ dir)",
+      "type": "file_exists",
+      "paths": ["src/templates", "src/emails", "templates"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "4.1",
+      "name": "Bounce/complaint webhook handler",
+      "type": "grep",
+      "pattern": "bounce|complaint|hard_bounce|spam_complaint",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "5.1",
+      "name": "Async email send via worker queue",
+      "type": "grep",
+      "pattern": "queue.*email|email.*queue|bullmq|bull|sendQueue",
+      "paths": ["src/**/*.js", "src/**/*.ts"],
+      "severity": "recommended",
+      "applies_to_project_types": ["backend"]
+    },
+    {
+      "id": "manual.spf",
+      "name": "SPF DNS record published for sending domain",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.dkim",
+      "name": "DKIM signing enabled + DNS record published",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.dmarc",
+      "name": "DMARC policy at least p=quarantine + reports monitored",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.unsubscribe",
+      "name": "List-Unsubscribe header on all marketing emails",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.dev-sink",
+      "name": "Dev/staging captures emails (Mailpit) — never delivers from non-prod",
+      "type": "manual",
+      "severity": "required"
+    }
+  ]
+}
