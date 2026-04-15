@@ -1,0 +1,140 @@
+{
+  "id": "static_html",
+  "name": "Static HTML site (nginx / CF Pages / static hosting)",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "HTML5 doctype declared",
+      "type": "grep",
+      "pattern": "<!DOCTYPE html>",
+      "paths": ["index.html", "*.html", "public/*.html"],
+      "severity": "required",
+      "applies_to_project_types": ["static"]
+    },
+    {
+      "id": "1.2",
+      "name": "Viewport meta tag (mobile-friendly)",
+      "type": "grep",
+      "pattern": "<meta[^>]+name=[\"']viewport[\"']",
+      "paths": ["index.html", "*.html", "public/*.html"],
+      "severity": "required",
+      "applies_to_project_types": ["static"]
+    },
+    {
+      "id": "1.3",
+      "name": "Description meta tag (SEO)",
+      "type": "grep",
+      "pattern": "<meta[^>]+name=[\"']description[\"']",
+      "paths": ["index.html", "*.html", "public/*.html"],
+      "severity": "recommended",
+      "applies_to_project_types": ["static"]
+    },
+    {
+      "id": "1.4",
+      "name": "Open Graph metadata (link previews)",
+      "type": "grep",
+      "pattern": "property=[\"']og:(title|image|description)[\"']",
+      "paths": ["index.html", "*.html", "public/*.html"],
+      "severity": "recommended",
+      "applies_to_project_types": ["static"]
+    },
+    {
+      "id": "1.5",
+      "name": "Lang attribute on <html> (a11y + SEO)",
+      "type": "grep",
+      "pattern": "<html[^>]+lang=",
+      "paths": ["index.html", "*.html", "public/*.html"],
+      "severity": "recommended",
+      "applies_to_project_types": ["static"]
+    },
+    {
+      "id": "2.1",
+      "name": "robots.txt present",
+      "type": "file_exists",
+      "paths": ["robots.txt", "public/robots.txt", "static/robots.txt"],
+      "severity": "required",
+      "applies_to_project_types": ["static"]
+    },
+    {
+      "id": "2.2",
+      "name": "Favicon present",
+      "type": "file_exists",
+      "paths": ["favicon.ico", "public/favicon.ico", "favicon.svg", "public/favicon.svg"],
+      "severity": "recommended",
+      "applies_to_project_types": ["static"]
+    },
+    {
+      "id": "2.3",
+      "name": "Custom 404 page (visitor experience)",
+      "type": "file_exists",
+      "paths": ["404.html", "public/404.html"],
+      "severity": "recommended",
+      "applies_to_project_types": ["static"]
+    },
+    {
+      "id": "2.4",
+      "name": "Sitemap.xml (SEO crawlability)",
+      "type": "file_exists",
+      "paths": ["sitemap.xml", "public/sitemap.xml"],
+      "severity": "recommended",
+      "applies_to_project_types": ["static"]
+    },
+    {
+      "id": "3.1",
+      "name": "No insecure http:// resource references",
+      "type": "grep_negative",
+      "pattern": "src=[\"']http://|href=[\"']http://(?!localhost)",
+      "paths": ["index.html", "*.html", "public/*.html"],
+      "severity": "recommended",
+      "applies_to_project_types": ["static"]
+    },
+    {
+      "id": "manual.html-validates",
+      "name": "HTML validates (W3C validator clean)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.lighthouse-perf",
+      "name": "Lighthouse performance score ≥85",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.lighthouse-a11y",
+      "name": "Lighthouse accessibility score ≥90",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.lighthouse-seo",
+      "name": "Lighthouse SEO score ≥90",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.minified-assets",
+      "name": "Production CSS/JS assets are minified (build pipeline)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.compression",
+      "name": "Server returns gzip/brotli for text assets",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.https-redirect",
+      "name": "HTTP requests redirect to HTTPS (no plain-http origin)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.csp",
+      "name": "Content-Security-Policy header set",
+      "type": "manual",
+      "severity": "recommended"
+    }
+  ]
+}
