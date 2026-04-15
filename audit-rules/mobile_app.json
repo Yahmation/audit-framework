@@ -1,0 +1,138 @@
+{
+  "id": "mobile_app",
+  "name": "Mobile app patterns (React Native / Expo)",
+  "checks": [
+    {
+      "id": "1.1",
+      "name": "Sentry SDK installed (crash + error reporting)",
+      "type": "grep",
+      "pattern": "@sentry/react-native|sentry-expo",
+      "paths": ["package.json"],
+      "severity": "required",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "1.2",
+      "name": "Sentry init wired in app entry",
+      "type": "grep",
+      "pattern": "Sentry\\.init|Sentry\\.wrap|sentryInit",
+      "paths": ["App.js", "App.jsx", "App.tsx", "index.js", "index.jsx", "index.ts", "index.tsx", "src/**/*.{js,jsx,ts,tsx}"],
+      "severity": "required",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "1.3",
+      "name": "ErrorBoundary component present",
+      "type": "grep",
+      "pattern": "componentDidCatch|getDerivedStateFromError|class\\s+ErrorBoundary",
+      "paths": ["src/components/ErrorBoundary.js", "src/components/ErrorBoundary.jsx", "src/components/ErrorBoundary.tsx", "src/ErrorBoundary.js", "App.js", "App.jsx", "App.tsx"],
+      "severity": "required",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "2.1",
+      "name": "Bundle identifier follows Yahmation convention",
+      "type": "grep",
+      "pattern": "com\\.yahmation\\.|\"package\":\\s*\"com\\.yahmation",
+      "paths": ["app.json", "app.config.js", "android/app/build.gradle"],
+      "severity": "required",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "2.2",
+      "name": "Both iOS + Android entries in app.json",
+      "type": "grep_all",
+      "patterns": ["\"ios\"\\s*:", "\"android\"\\s*:"],
+      "paths": ["app.json", "app.config.js"],
+      "severity": "recommended",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "3.1",
+      "name": "Splash screen asset configured",
+      "type": "grep",
+      "pattern": "splash[\"']?\\s*:|splashScreen",
+      "paths": ["app.json", "app.config.js"],
+      "severity": "recommended",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "3.2",
+      "name": "App icon configured",
+      "type": "grep",
+      "pattern": "\"icon\"\\s*:",
+      "paths": ["app.json", "app.config.js"],
+      "severity": "required",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "4.1",
+      "name": "Push notification deps (FCM / Expo notifications)",
+      "type": "grep",
+      "pattern": "@react-native-firebase/messaging|expo-notifications|@notifee/react-native",
+      "paths": ["package.json"],
+      "severity": "recommended",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "4.2",
+      "name": "Persistent storage configured (SecureStore / EncryptedStorage / AsyncStorage / MMKV)",
+      "type": "grep",
+      "pattern": "expo-secure-store|react-native-encrypted-storage|@react-native-async-storage/async-storage|react-native-mmkv",
+      "paths": ["package.json"],
+      "severity": "required",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "5.1",
+      "name": "Background-safe network requests (timeout configured)",
+      "type": "grep",
+      "pattern": "AbortController|timeout:\\s*\\d+|signal:",
+      "paths": ["src/**/*.{js,jsx,ts,tsx}"],
+      "severity": "recommended",
+      "applies_to_project_types": ["mobile"]
+    },
+    {
+      "id": "manual.signed-release-keystore",
+      "name": "Production release signed with the canonical Yahmation keystore (NOT the generated debug one)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.permissions-minimal",
+      "name": "Only the minimum required Android/iOS permissions declared (no broad RECORD_AUDIO if voice calls are inbound-only, etc.)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.deep-links",
+      "name": "Universal links / app links registered in app.json + verified on install",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.first-launch",
+      "name": "Cold-start to interactive < 3s on a mid-tier device (Pixel 5 / iPhone 11)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.offline-handling",
+      "name": "App degrades gracefully when offline (no white screens, queued ops resume on reconnect)",
+      "type": "manual",
+      "severity": "recommended"
+    },
+    {
+      "id": "manual.background-survival",
+      "name": "App survives 24+ hours backgrounded with notifications still arriving (no Android battery-killer)",
+      "type": "manual",
+      "severity": "required"
+    },
+    {
+      "id": "manual.test-coverage",
+      "name": "Critical user paths covered by the redroid mobile test harness OR Detox/Maestro",
+      "type": "manual",
+      "severity": "required"
+    }
+  ]
+}
