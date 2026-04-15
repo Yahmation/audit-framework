@@ -1,7 +1,6 @@
-# Secret scanning — fails CI on any committed secret matching gitleaks rules.
-# Catches accidental commits of API keys, tokens, .env files, service account JSON.
-#
-# Audit check: closes production_hardening §4.1 (secret scanning).
+# Secret scanning — uses gitleaks OSS binary directly (no paid license needed,
+# unlike gitleaks-action@v2 which now requires a license for organizations).
+# Fails CI on any committed secret matching default rules.
 name: Secret scan
 
 on:
@@ -20,8 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # full history so gitleaks can scan the whole tree
+          fetch-depth: 0
 
-      - uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install gitleaks
+        run: |
+          GITLEAKS_VERSION=8.18.4
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" | sudo tar -xz -C /usr/local/bin gitleaks
+          gitleaks version
+
+      - name: Scan
+        run: gitleaks detect --source . --redact --no-banner --verbose
