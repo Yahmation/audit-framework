@@ -4,12 +4,12 @@
 # required item is missing.
 #
 # Usage:
-#   cd /root/voice/apps/mobile
+#   cd /root/tone/apps/mobile
 #   /root/shared/scripts/audit-project.sh
 #
 # Looks for .audit.json in CWD. Expected shape:
 #   {
-#     "project_name": "voice-mobile",
+#     "project_name": "tone-mobile",
 #     "project_type": "mobile",          // any | web | mobile | backend | static
 #     "applicable_checklists": ["production_hardening", ...]
 #   }
